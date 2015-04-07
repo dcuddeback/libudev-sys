@@ -1,5 +1,3 @@
-#![feature(libc)]
-
 extern crate libudev_sys as udev;
 extern crate libc;
 
