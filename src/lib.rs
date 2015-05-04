@@ -2,7 +2,10 @@
 
 extern crate libc;
 
-use libc::{c_void,c_int,c_uint,c_char,c_ulonglong,size_t,dev_t};
+use libc::{c_void,c_int,c_char,c_ulonglong,size_t,dev_t};
+
+#[cfg(hwdb)]
+pub use hwdb::*;
 
 
 #[repr(C)]
@@ -22,9 +25,6 @@ pub struct udev_enumerate;
 
 #[repr(C)]
 pub struct udev_queue;
-
-#[repr(C)]
-pub struct udev_hwdb;
 
 extern "C" {
     // udev
@@ -116,12 +116,23 @@ extern "C" {
     pub fn udev_queue_get_fd(udev_queue: *mut udev_queue) -> c_int;
     pub fn udev_queue_flush(udev_queue: *mut udev_queue) -> c_int;
 
-    // udev_hwdb
-    pub fn udev_hwdb_ref(hwdb: *mut udev_hwdb) -> *mut udev_hwdb;
-    pub fn udev_hwdb_unref(hwdb: *mut udev_hwdb) -> *mut udev_hwdb;
-    pub fn udev_hwdb_new(udev: *mut udev) -> *mut udev_hwdb;
-    pub fn udev_hwdb_get_properties_list_entry(hwdb: *mut udev_hwdb, modalias: *const c_char, flags: c_uint) -> *mut udev_list_entry;
-
     // udev_util
     pub fn udev_util_encode_string(str: *const c_char, str_enc: *mut c_char, len: size_t) -> c_int;
+}
+
+
+#[cfg(hwdb)]
+mod hwdb {
+    use super::libc::{c_uint,c_char};
+    use super::{udev,udev_list_entry};
+
+    #[repr(C)]
+    pub struct udev_hwdb;
+
+    extern "C" {
+        pub fn udev_hwdb_ref(hwdb: *mut udev_hwdb) -> *mut udev_hwdb;
+        pub fn udev_hwdb_unref(hwdb: *mut udev_hwdb) -> *mut udev_hwdb;
+        pub fn udev_hwdb_new(udev: *mut udev) -> *mut udev_hwdb;
+        pub fn udev_hwdb_get_properties_list_entry(hwdb: *mut udev_hwdb, modalias: *const c_char, flags: c_uint) -> *mut udev_list_entry;
+    }
 }
