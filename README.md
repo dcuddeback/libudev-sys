@@ -50,7 +50,7 @@ Add `libudev-sys` as a dependency in `Cargo.toml`:
 
 ```toml
 [dependencies]
-libudev-sys = "0.1.0"
+libudev-sys = "0.1.1"
 ```
 
 Import the `libudev_sys` crate and use the functions as they're defined in the native `libudev`
