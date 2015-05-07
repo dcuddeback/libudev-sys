@@ -61,6 +61,13 @@ for more usage information.
 extern crate libudev_sys as ffi;
 ```
 
+The `libudev-sys` build script detects the presence of native `libudev` functions and exports the
+functions found to exist. `libudev-sys` exports this information from its build script, which Cargo
+will provide to the build scripts of dependent packages in the form of environment variables:
+
+* `DEP_LIBUDEV_HWDB={true,false}`: The native `libudev` library has `udev_hwdb_*` functions. They will be
+  exported by `libudev-sys`.
+
 ### Finding Help
 Since `libudev-sys` does nothing more than export symbols from the native `libudev` library, the
 best source for help is the information already available for the native `libudev`:
