@@ -9,22 +9,34 @@ pub use hwdb::*;
 
 
 #[repr(C)]
-pub struct udev;
+pub struct udev {
+    __private: c_void,
+}
 
 #[repr(C)]
-pub struct udev_list_entry;
+pub struct udev_list_entry {
+    __private: c_void,
+}
 
 #[repr(C)]
-pub struct udev_device;
+pub struct udev_device {
+    __private: c_void,
+}
 
 #[repr(C)]
-pub struct udev_monitor;
+pub struct udev_monitor {
+    __private: c_void,
+}
 
 #[repr(C)]
-pub struct udev_enumerate;
+pub struct udev_enumerate {
+    __private: c_void,
+}
 
 #[repr(C)]
-pub struct udev_queue;
+pub struct udev_queue {
+    __private: c_void,
+}
 
 extern "C" {
     // udev
@@ -123,11 +135,13 @@ extern "C" {
 
 #[cfg(hwdb)]
 mod hwdb {
-    use super::libc::{c_uint,c_char};
+    use super::libc::{c_void,c_uint,c_char};
     use super::{udev,udev_list_entry};
 
     #[repr(C)]
-    pub struct udev_hwdb;
+    pub struct udev_hwdb {
+        __private: c_void,
+    }
 
     extern "C" {
         pub fn udev_hwdb_ref(hwdb: *mut udev_hwdb) -> *mut udev_hwdb;
