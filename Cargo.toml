@@ -1,7 +1,6 @@
 [package]
-
 name = "libudev-sys"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["David Cuddeback <david.cuddeback@gmail.com>"]
 description = "FFI bindings to libudev"
 license = "MIT"
