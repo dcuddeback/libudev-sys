@@ -13,6 +13,12 @@ distributions, execute the following command:
 sudo apt-get install libudev-dev
 ```
 
+For Red Hat distributions (e.g. Fedora):
+
+```
+sudo dnf install systemd-devel
+```
+
 `libudev` is a Linux-specific package. It is not available for Windows, OSX, or other operating
 systems.
 
