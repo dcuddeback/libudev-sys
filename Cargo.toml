@@ -16,4 +16,4 @@ links = "libudev"
 libc = "0.2"
 
 [build-dependencies]
-pkg-config = "0.3.2"
+pkg-config = "0.3.22"
