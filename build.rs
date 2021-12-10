@@ -25,7 +25,8 @@ fn check_func(function_name: &str) -> bool {
         writeln!(&mut test_file, "}}").unwrap();
     }
 
-    let output = Command::new("rustc").
+    let rustc = env::var("RUSTC").unwrap();
+    let output = Command::new(rustc).
         arg(&test_file_name).
         arg("--out-dir").arg(&out_dir).
         arg("-l").arg("udev").
