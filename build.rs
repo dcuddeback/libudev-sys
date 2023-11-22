@@ -38,10 +38,9 @@ fn check_func(function_name: &str, lib: pkg_config::Library) -> bool {
     }
 
     cmd.args(["--target", &std::env::var("TARGET").unwrap()]);
-    cmd.args([
-        "-C",
-        &format!("linker={}", std::env::var("RUSTC_LINKER").unwrap()),
-    ]);
+    if let Ok(linker) = std::env::var("RUSTC_LINKER") {
+        cmd.args(["-C", &format!("linker={linker}")]);
+    }
 
     let output = cmd.output().unwrap();
     if !output.status.success() {
@@ -54,13 +53,13 @@ fn check_func(function_name: &str, lib: pkg_config::Library) -> bool {
             "cargo:warning=stdout={}",
             String::from_utf8_lossy(&output.stdout)
                 .trim()
-                .replace("\n", "\ncargo:warning=")
+                .replace('\n', "\ncargo:warning=")
         );
         println!(
             "cargo:warning=stderr={}",
             String::from_utf8_lossy(&output.stderr)
                 .trim()
-                .replace("\n", "\ncargo:warning=")
+                .replace('\n', "\ncargo:warning=")
         );
         false
     } else {
@@ -74,8 +73,7 @@ fn main() {
     if check_func("udev_hwdb_new", lib) {
         println!("cargo:rustc-cfg=hwdb");
         println!("cargo:hwdb=true");
-    }
-    else {
+    } else {
         println!("cargo:hwdb=false");
     }
 }
