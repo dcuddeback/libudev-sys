@@ -25,23 +25,29 @@ fn check_func(function_name: &str) -> bool {
         writeln!(&mut test_file, "}}").unwrap();
     }
 
-    let output = Command::new("rustc").
-        arg(&test_file_name).
-        arg("--out-dir").arg(&out_dir).
-        arg("-l").arg("udev").
-        output().unwrap();
+    let output = Command::new("rustc")
+        .arg(&test_file_name)
+        .arg("--out-dir")
+        .arg(&out_dir)
+        .arg("-l")
+        .arg("udev")
+        .output()
+        .unwrap();
 
     output.status.success()
 }
 
 fn main() {
-    pkg_config::find_library("libudev").unwrap();
+    let library = pkg_config::find_library("libudev").unwrap();
+
+    for path in library.link_files {
+        println!("cargo:rustc-link-lib={}", path.display());
+    }
 
     if check_func("udev_hwdb_new") {
         println!("cargo:rustc-cfg=hwdb");
         println!("cargo:hwdb=true");
-    }
-    else {
+    } else {
         println!("cargo:hwdb=false");
     }
 }
